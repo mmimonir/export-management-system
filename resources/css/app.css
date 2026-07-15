@@ -1,9 +1,51 @@
-@import 'tailwindcss';
+/* Import Bootstrap CSS */
+@import "bootstrap/dist/css/bootstrap.css";
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
+/* Import Bootstrap Icons */
+@import "bootstrap-icons/font/bootstrap-icons.css";
 
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+/* Import AdminLTE CSS */
+@import "admin-lte/dist/css/adminlte.css";
+
+/* Import OverlayScrollbars CSS */
+@import "overlayscrollbars/styles/overlayscrollbars.css";
+
+/* Import Source Sans 3 Font */
+@import "@fontsource/source-sans-3/index.css";
+
+/* Custom styles for Export Management System */
+.brand-image {
+    max-height: 33px;
+}
+
+.export-status-badge {
+    font-size: 0.85rem;
+}
+
+.sidebar .nav-link.active {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.login-page {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.info-box {
+    min-height: 100px;
+    box-shadow:
+        0 0 1px rgba(0, 0, 0, 0.125),
+        0 1px 3px rgba(0, 0, 0, 0.2);
+    border-radius: 0.25rem;
+}
+
+.info-box-icon {
+    border-radius: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 90px;
+}
+
+.info-box-content {
+    padding: 5px 10px;
 }
