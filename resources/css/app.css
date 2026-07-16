@@ -10,6 +10,11 @@
 /* Import OverlayScrollbars CSS */
 @import "overlayscrollbars/styles/overlayscrollbars.css";
 
+/* DataTables CSS (Bootstrap 5) */
+@import "datatables.net-bs5/css/dataTables.bootstrap5.min.css";
+@import "datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css";
+@import "datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css";
+
 /* Import Source Sans 3 Font */
 @import "@fontsource/source-sans-3/index.css";
 
@@ -48,4 +53,63 @@
 
 .info-box-content {
     padding: 5px 10px;
+}
+
+/* DataTables Buttons - ensure contrast and visibility in dark theme */
+[data-bs-theme="dark"] .dt-buttons .btn {
+    color: #f8f9fa; /* light text */
+    background-color: transparent;
+    border-color: rgba(248, 249, 250, 0.08);
+}
+
+/* DataTables Buttons collection / dropdown (Bootstrap integration) */
+[data-bs-theme="dark"] .dt-buttons .dropdown-menu,
+[data-bs-theme="dark"] .dt-buttons .dt-button-collection {
+    background-color: #212529; /* dark background */
+    color: #f8f9fa; /* light text */
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+[data-bs-theme="dark"] .dt-buttons .dropdown-item,
+[data-bs-theme="dark"] .dt-buttons .dropdown-menu .dt-button,
+[data-bs-theme="dark"] .dt-buttons .dropdown-menu button,
+[data-bs-theme="dark"] .dt-buttons .dropdown-menu a {
+    color: #f8f9fa;
+}
+
+[data-bs-theme="dark"] .dt-buttons .dropdown-item:hover,
+[data-bs-theme="dark"] .dt-buttons .dropdown-menu .dt-button:hover,
+[data-bs-theme="dark"] .dt-buttons .dropdown-menu button:hover {
+    background-color: rgba(255, 255, 255, 0.06);
+    color: #ffffff;
+}
+
+/* Ensure icons and inner spans inherit color */
+[data-bs-theme="dark"] .dt-buttons .dropdown-menu .fa,
+[data-bs-theme="dark"] .dt-buttons .dropdown-menu .bi,
+[data-bs-theme="dark"] .dt-buttons .dropdown-menu span {
+    color: inherit !important;
+}
+
+[data-bs-theme="dark"] .dt-buttons .btn.btn-secondary,
+[data-bs-theme="dark"] .dt-buttons .btn.btn-outline-secondary {
+    color: #f8f9fa;
+    background-color: rgba(255, 255, 255, 0.03);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Slightly stronger hover states for clarity */
+[data-bs-theme="dark"] .dt-buttons .btn:hover {
+    background-color: rgba(255, 255, 255, 0.06);
+}
+
+/* Smaller buttons fit toolbar */
+.dt-buttons .btn.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8125rem;
+}
+
+/* Ensure button text is never clipped */
+.dt-buttons {
+    white-space: nowrap;
 }
