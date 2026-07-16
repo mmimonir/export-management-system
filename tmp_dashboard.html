@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="">
+
+    <title>Dashboard - Export Management System</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+3:300,400,400i,700&display=fallback">
+
+    <link rel="preload" as="style" href="http://localhost/build/assets/app-Cmes2LbD.css" /><link rel="modulepreload" as="script" href="http://localhost/build/assets/app-CplAmvVT.js" /><link rel="stylesheet" href="http://localhost/build/assets/app-Cmes2LbD.css" /><script type="module" src="http://localhost/build/assets/app-CplAmvVT.js"></script>    </head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-primary navbar-dark">
+            <div class="container-fluid">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button">
+                            <i class="bi bi-list"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item d-none d-md-inline">
+                        <a href="http://localhost/dashboard" class="nav-link">Home</a>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown user-menu">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <img src="https://ui-avatars.com/api/?name=&background=0D8ABC&color=fff"
+                                class="user-image img-circle elevation-2" alt="User Image">
+                            <span class="d-none d-md-inline"></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
+                            <li class="user-header bg-primary py-4 text-center text-white">
+                                <img src="https://ui-avatars.com/api/?name=&size=128&background=0D8ABC&color=fff"
+                                    class="img-circle elevation-2" alt="User Image" width="80">
+                                <p class="mb-0 mt-3">
+                                    
+                                    <small></small>
+                                </p>
+                            </li>
+                            <li class="user-footer d-flex justify-content-between px-3 py-2">
+                                <a href="http://localhost/profile" class="btn btn-default btn-sm">Profile</a>
+                                <form method="POST" action="http://localhost/logout">
+                                    <input type="hidden" name="_token" value="" autocomplete="off">                                    <button type="submit" class="btn btn-default btn-sm">Sign out</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Sidebar -->
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <a href="http://localhost/dashboard" class="brand-link">
+                <img src="https://adminlte.io/wp-content/uploads/2024/04/logo-adminlte.png" alt="EMS Logo"
+                    class="brand-image img-circle elevation-3" style="opacity: .8;">
+                <span class="brand-text fw-light">EMS</span>
+            </a>
+
+            <div class="sidebar">
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-lte-toggle="treeview" role="menu"
+                        data-accordion="false">
+                        <li class="nav-item">
+                            <a href="http://localhost/dashboard"
+                                class="nav-link ">
+                                <i class="nav-icon bi bi-speedometer"></i>
+                                <p>Dashboard</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-header">EXPORT MANAGEMENT</li>
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon bi bi-box-seam"></i>
+                                <p>
+                                    Export Orders
+                                    <i class="right bi bi-chevron-right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p>All Orders</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p>New Order</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon bi bi-truck"></i>
+                                <p>
+                                    Shipments
+                                    <i class="right bi bi-chevron-right"></i>
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon bi bi-file-earmark-text"></i>
+                                <p>
+                                    Documents
+                                    <i class="right bi bi-chevron-right"></i>
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-header">SETTINGS</li>
+
+                        <li class="nav-item">
+                            <a href="http://localhost/profile"
+                                class="nav-link ">
+                                <i class="nav-icon bi bi-person"></i>
+                                <p>Profile</p>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Content Wrapper -->
+        <div class="content-wrapper">
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Dashboard</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-end">
+                                <li class="breadcrumb-item"><a href="http://localhost/dashboard">Home</a></li>
+                                    <li class="breadcrumb-item active">Dashboard</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content">
+                <div class="container-fluid">
+                    
+                        <!-- Info boxes -->
+    <div class="row">
+        <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+                <span class="info-box-icon bg-primary elevation-2">
+                    <i class="bi bi-box-seam"></i>
+                </span>
+                <div class="info-box-content">
+                    <span class="info-box-text">Total Orders</span>
+                    <span class="info-box-number">1,410</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+                <span class="info-box-icon bg-success elevation-2">
+                    <i class="bi bi-check-circle"></i>
+                </span>
+                <div class="info-box-content">
+                    <span class="info-box-text">Completed</span>
+                    <span class="info-box-number">890</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+                <span class="info-box-icon bg-warning elevation-2">
+                    <i class="bi bi-truck"></i>
+                </span>
+                <div class="info-box-content">
+                    <span class="info-box-text">In Transit</span>
+                    <span class="info-box-number">320</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+                <span class="info-box-icon bg-danger elevation-2">
+                    <i class="bi bi-exclamation-triangle"></i>
+                </span>
+                <div class="info-box-content">
+                    <span class="info-box-text">Pending</span>
+                    <span class="info-box-number">200</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main row -->
+    <div class="row">
+        <!-- Recent Orders -->
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Recent Export Orders</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
+                            <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
+                            <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table-striped table-hover table">
+                            <thead>
+                                <tr>
+                                    <th>Order #</th>
+                                    <th>Buyer</th>
+                                    <th>Destination</th>
+                                    <th>Status</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>EXP-2024-001</td>
+                                    <td>ABC Trading Ltd.</td>
+                                    <td>United Kingdom</td>
+                                    <td><span class="badge bg-success">Completed</span></td>
+                                    <td>$25,000</td>
+                                </tr>
+                                <tr>
+                                    <td>EXP-2024-002</td>
+                                    <td>XYZ Imports</td>
+                                    <td>United States</td>
+                                    <td><span class="badge bg-warning">In Transit</span></td>
+                                    <td>$18,500</td>
+                                </tr>
+                                <tr>
+                                    <td>EXP-2024-003</td>
+                                    <td>Global Trade Co.</td>
+                                    <td>Germany</td>
+                                    <td><span class="badge bg-info">Processing</span></td>
+                                    <td>$32,000</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Quick Stats</h3>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span>Total Revenue</span>
+                        <span class="badge bg-primary">$1,250,000</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span>Active Buyers</span>
+                        <span class="badge bg-success">45</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span>Export Countries</span>
+                        <span class="badge bg-info">12</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span>Success Rate</span>
+                        <span class="badge bg-warning text-dark">85%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Welcome Card -->
+            <div class="card text-bg-primary">
+                <div class="card-body">
+                    <h5 class="card-title">Welcome back!</h5>
+                    <p class="card-text"></p>
+                    <p class="card-text">You have 5 pending orders to process.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+                </div>
+            </section>
+        </div>
+
+        <footer class="main-footer">
+            <div class="d-none d-sm-inline float-end">
+                Export Management System v1.0
+            </div>
+            <strong>
+                Copyright &copy; 2026
+                <a href="#" class="text-decoration-none">Your Company</a>.
+            </strong>
+            All rights reserved.
+        </footer>
+    </div>
+
+        <script>
+        $(document).ready(function() {
+            console.log('Dashboard loaded successfully');
+        });
+    </script>
+</body>
+
+</html>

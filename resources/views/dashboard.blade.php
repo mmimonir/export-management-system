@@ -12,8 +12,8 @@
     <!-- Info boxes -->
     <div class="row">
         <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box">
-                <span class="info-box-icon text-bg-primary shadow-sm">
+            <div class="info-box mb-3">
+                <span class="info-box-icon bg-primary elevation-2">
                     <i class="bi bi-box-seam"></i>
                 </span>
                 <div class="info-box-content">
@@ -24,8 +24,8 @@
         </div>
 
         <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box">
-                <span class="info-box-icon text-bg-success shadow-sm">
+            <div class="info-box mb-3">
+                <span class="info-box-icon bg-success elevation-2">
                     <i class="bi bi-check-circle"></i>
                 </span>
                 <div class="info-box-content">
@@ -36,8 +36,8 @@
         </div>
 
         <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box">
-                <span class="info-box-icon text-bg-warning shadow-sm">
+            <div class="info-box mb-3">
+                <span class="info-box-icon bg-warning elevation-2">
                     <i class="bi bi-truck"></i>
                 </span>
                 <div class="info-box-content">
@@ -48,8 +48,8 @@
         </div>
 
         <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box">
-                <span class="info-box-icon text-bg-danger shadow-sm">
+            <div class="info-box mb-3">
+                <span class="info-box-icon bg-danger elevation-2">
                     <i class="bi bi-exclamation-triangle"></i>
                 </span>
                 <div class="info-box-content">
@@ -64,7 +64,7 @@
     <div class="row">
         <!-- Recent Orders -->
         <div class="col-md-8">
-            <div class="card">
+            <div class="card card-primary">
                 <div class="card-header">
                     <h3 class="card-title">Recent Export Orders</h3>
                     <div class="card-tools">
@@ -91,21 +91,21 @@
                                     <td>EXP-2024-001</td>
                                     <td>ABC Trading Ltd.</td>
                                     <td>United Kingdom</td>
-                                    <td><span class="badge text-bg-success">Completed</span></td>
+                                    <td><span class="badge bg-success">Completed</span></td>
                                     <td>$25,000</td>
                                 </tr>
                                 <tr>
                                     <td>EXP-2024-002</td>
                                     <td>XYZ Imports</td>
                                     <td>United States</td>
-                                    <td><span class="badge text-bg-warning">In Transit</span></td>
+                                    <td><span class="badge bg-warning">In Transit</span></td>
                                     <td>$18,500</td>
                                 </tr>
                                 <tr>
                                     <td>EXP-2024-003</td>
                                     <td>Global Trade Co.</td>
                                     <td>Germany</td>
-                                    <td><span class="badge text-bg-info">Processing</span></td>
+                                    <td><span class="badge bg-info">Processing</span></td>
                                     <td>$32,000</td>
                                 </tr>
                             </tbody>
@@ -117,26 +117,26 @@
 
         <!-- Quick Stats -->
         <div class="col-md-4">
-            <div class="card">
+            <div class="card card-secondary">
                 <div class="card-header">
                     <h3 class="card-title">Quick Stats</h3>
                 </div>
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <span>Total Revenue</span>
-                        <span class="badge text-bg-primary">$1,250,000</span>
+                        <span class="badge bg-primary">$1,250,000</span>
                     </div>
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <span>Active Buyers</span>
-                        <span class="badge text-bg-success">45</span>
+                        <span class="badge bg-success">45</span>
                     </div>
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <span>Export Countries</span>
-                        <span class="badge text-bg-info">12</span>
+                        <span class="badge bg-info">12</span>
                     </div>
                     <div class="d-flex justify-content-between align-items-center">
                         <span>Success Rate</span>
-                        <span class="badge text-bg-warning">85%</span>
+                        <span class="badge bg-warning text-dark">85%</span>
                     </div>
                 </div>
             </div>

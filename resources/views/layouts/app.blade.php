@@ -1,36 +1,69 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <title>{{ config('app.name', 'Export Management System') }}</title>
 
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
-            @include('layouts.navigation')
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+3:300,400,400i,700&display=fallback">
 
-            <!-- Page Heading -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @stack('styles')
+</head>
+
+<body data-bs-theme="dark" class="hold-transition layout-top-nav">
+    <div class="wrapper">
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <div class="container-fluid">
+                <a href="{{ route('dashboard') }}" class="navbar-brand">
+                    <img src="https://adminlte.io/wp-content/uploads/2024/04/logo-adminlte.png" alt="EMS Logo"
+                        class="brand-image img-circle elevation-3" style="opacity: .8;">
+                    <span class="brand-text fw-light">Export Management System</span>
+                </a>
+
+                <button class="navbar-toggler order-1" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="navbar-collapse collapse order-3" id="navbarSupportedContent">
+                    @include('layouts.navigation')
+                </div>
+            </div>
+        </nav>
+
+        <div class="content-wrapper">
             @isset($header)
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
+                <div class="content-header">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                            <div class="col-sm-12">
+                                {{ $header }}
+                            </div>
+                        </div>
                     </div>
-                </header>
+                </div>
             @endisset
 
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
+            <div class="content">
+                <div class="container-fluid">
+                    {{ $slot }}
+                </div>
+            </div>
         </div>
-    </body>
+
+        <footer class="main-footer">
+            <div class="d-none d-sm-inline float-end">Export Management System</div>
+            <strong>&copy; {{ date('Y') }} <a href="#" class="text-decoration-none">Your Company</a>.</strong>
+            All rights reserved.
+        </footer>
+    </div>
+
+    @stack('scripts')
+</body>
+
 </html>
