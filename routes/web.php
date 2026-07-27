@@ -20,4 +20,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/demo-users/data', [DemoUserController::class, 'data'])->name('demo.users.data');
 });
 
+// Load Module Routes
+require __DIR__.'/../Modules/Blog/routes/web.php';
+require __DIR__.'/../Modules/Store/routes/web.php';
+
 require __DIR__.'/auth.php';
