@@ -19,8 +19,8 @@
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
             <div class="container-fluid">
                 <a href="{{ route('dashboard') }}" class="navbar-brand">
-                    <img src="https://adminlte.io/wp-content/uploads/2024/04/logo-adminlte.png" alt="EMS Logo"
-                        class="brand-image img-circle elevation-3" style="opacity: .8;">
+                    <img src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/4.1.0/assets/img/AdminLTELogo.png"
+                        alt="EMS Logo" class="brand-image img-circle elevation-3" style="opacity: .8;">
                     <span class="brand-text fw-light">Export Management System</span>
                 </a>
 
