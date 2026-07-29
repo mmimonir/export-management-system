@@ -16,6 +16,14 @@ class StoreController extends Controller
     }
 
     /**
+     * Display the dashboard.
+     */
+    public function dashboard()
+    {
+        return view('store::dashboard');
+    }
+
+    /**
      * Display a listing of the resource.
      */
     public function index()

@@ -1,25 +1,53 @@
-# Compiled and build artifacts
-*.pyc
-__pycache__/
-
 # Dependencies
-node_modules/
 vendor/
 composer.lock
 
-# Logs and temp files
+# Logs
 *.log
-*.tmp
+storage/logs/
 
 # Environment
 .env
 .env.local
-*.env.*
+.env.*
 
-# Editors
+# IDE
 .vscode/
 .idea/
 
-# OS generated files
+# OS
 .DS_Store
 Thumbs.db
+
+# Cache
+bootstrap/cache/
+storage/framework/cache/
+storage/framework/sessions/
+storage/framework/views/
+
+# Build artifacts
+public/build/
+public/css/
+public/js/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Testing
+.phpunit.result.cache
+.php_cs.cache
+
+# Laravel specific
+!.env.example
+!.env.staging
+!.env.production
+storage/app/public/
+storage/framework/cache/data/
+storage/framework/sessions/
+storage/framework/testing/
+storage/framework/views/
+bootstrap/cache/config.php
+bootstrap/cache/services.php
+bootstrap/cache/packages.php
+bootstrap/cache/routes.php
+bootstrap/cache/events.php
