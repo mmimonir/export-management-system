@@ -69,7 +69,7 @@
                 <div class="card-header">
                     <h3 class="card-title">Recent Blog Posts</h3>
                     <div class="card-tools">
-                        <a href="{{ route('blog.posts.create') }}" class="btn btn-sm btn-primary">
+                        <a href="{{ route('blog.post.create') }}" class="btn btn-sm btn-primary">
                             <i class="bi bi-plus-lg me-1"></i> New Post
                         </a>
                         <button type="button" class="btn btn-tool ms-1" data-lte-toggle="card-collapse">
@@ -124,7 +124,7 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <a href="{{ route('blog.posts.index') }}" class="btn btn-sm btn-outline-primary">View All Posts</a>
+                    <a href="{{ route('blog.post.index') }}" class="btn btn-sm btn-outline-primary">View All Posts</a>
                 </div>
             </div>
         </div>
@@ -191,7 +191,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Welcome back, {{ Auth::user()->name }}!</h5>
                     <p class="card-text">You have 3 draft posts waiting to be published.</p>
-                    <a href="{{ route('blog.posts.create') }}" class="btn btn-light btn-sm">Create New Post</a>
+                    <a href="{{ route('blog.post.create') }}" class="btn btn-light btn-sm">Create New Post</a>
                 </div>
             </div>
         </div>
@@ -249,13 +249,13 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-6 mb-3">
-                            <a href="{{ route('blog.posts.create') }}" class="btn btn-block btn-outline-primary">
+                            <a href="{{ route('blog.post.create') }}" class="btn btn-block btn-outline-primary">
                                 <i class="bi bi-plus-circle me-2"></i> New Post
                             </a>
                         </div>
                         <div class="col-6 mb-3">
-                            <a href="{{ route('blog.categories.index') }}" class="btn btn-block btn-outline-success">
-                                <i class="bi bi-folder me-2"></i> Categories
+                            <a href="{{ route('blog.post.index') }}" class="btn btn-block btn-outline-success">
+                                <i class="bi bi-folder me-2"></i> Manage Posts
                             </a>
                         </div>
                         <div class="col-6 mb-3">
