@@ -69,7 +69,7 @@
                 <div class="card-header">
                     <h3 class="card-title">Recent Products</h3>
                     <div class="card-tools">
-                        <a href="{{ route('store.products.create') }}" class="btn btn-sm btn-primary">
+                        <a href="{{ route('store.product.create') }}" class="btn btn-sm btn-primary">
                             <i class="bi bi-plus-lg me-1"></i> New Product
                         </a>
                         <button type="button" class="btn btn-tool ms-1" data-lte-toggle="card-collapse">
@@ -129,7 +129,7 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <a href="{{ route('store.products.index') }}" class="btn btn-sm btn-outline-primary">View All Products</a>
+                    <a href="{{ route('store.product.index') }}" class="btn btn-sm btn-outline-primary">View All Products</a>
                 </div>
             </div>
         </div>
@@ -196,7 +196,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Welcome back, {{ Auth::user()->name }}!</h5>
                     <p class="card-text">You have 5 products with low stock levels.</p>
-                    <a href="{{ route('store.products.create') }}" class="btn btn-light btn-sm">Add New Product</a>
+                    <a href="{{ route('store.product.create') }}" class="btn btn-light btn-sm">Add New Product</a>
                 </div>
             </div>
         </div>
@@ -254,13 +254,13 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-6 mb-3">
-                            <a href="{{ route('store.products.create') }}" class="btn btn-block btn-outline-primary">
+                            <a href="{{ route('store.product.create') }}" class="btn btn-block btn-outline-primary">
                                 <i class="bi bi-plus-circle me-2"></i> New Product
                             </a>
                         </div>
                         <div class="col-6 mb-3">
-                            <a href="{{ route('store.categories.index') }}" class="btn btn-block btn-outline-success">
-                                <i class="bi bi-folder me-2"></i> Categories
+                            <a href="{{ route('store.product.index') }}" class="btn btn-block btn-outline-success">
+                                <i class="bi bi-box-seam me-2"></i> Manage Products
                             </a>
                         </div>
                         <div class="col-6 mb-3">
