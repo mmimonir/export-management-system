@@ -16,6 +16,14 @@ class BlogController extends Controller
     }
 
     /**
+     * Display the dashboard.
+     */
+    public function dashboard()
+    {
+        return view('blog::dashboard');
+    }
+
+    /**
      * Display a listing of the resource.
      */
     public function index()
