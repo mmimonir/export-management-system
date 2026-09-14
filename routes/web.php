@@ -23,5 +23,6 @@ Route::middleware('auth')->group(function () {
 // Load Module Routes
 require __DIR__.'/../Modules/Blog/routes/web.php';
 require __DIR__.'/../Modules/Store/routes/web.php';
+require __DIR__.'/../Modules/EMS/routes/web.php';
 
 require __DIR__.'/auth.php';
