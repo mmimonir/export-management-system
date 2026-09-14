@@ -1,1 +1,31 @@
-Nothing should be ignored based on the provided file changes. The only modified file is a PHP configuration file (`Modules/EMS/config/config.php`), which is a source/config file and should not be added to .gitignore.
+```
+# Dependencies
+vendor/
+node_modules/
+
+# Environment
+.env
+.env.local
+.env.*
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE specific
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Build artifacts
+build/
+dist/
+```
