@@ -8,14 +8,6 @@ use Illuminate\Http\Request;
 class BlogController extends Controller
 {
     /**
-     * Display the welcome page.
-     */
-    public function welcome()
-    {
-        return view('blog::welcome');
-    }
-
-    /**
      * Display the dashboard.
      */
     public function dashboard()

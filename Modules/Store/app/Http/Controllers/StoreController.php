@@ -8,14 +8,6 @@ use Illuminate\Http\Request;
 class StoreController extends Controller
 {
     /**
-     * Display the welcome page.
-     */
-    public function welcome()
-    {
-        return view('store::welcome');
-    }
-
-    /**
      * Display the dashboard.
      */
     public function dashboard()

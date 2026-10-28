@@ -289,19 +289,22 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{ route('blog.welcome') }}" class="nav-link">
+                                    <a href="{{ route('blog.welcome') }}"
+                                        class="nav-link {{ request()->routeIs('blog.welcome') ? 'active' : '' }}">
                                         <i class="nav-icon bi bi-display"></i>
                                         <p>Blog</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ route('ems.welcome') }}" class="nav-link">
+                                    <a href="{{ route('ems.welcome') }}"
+                                        class="nav-link {{ request()->routeIs('ems.welcome') ? 'active' : '' }}">
                                         <i class="nav-icon bi bi-display"></i>
                                         <p>EMS</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ route('store.welcome') }}" class="nav-link">
+                                    <a href="{{ route('store.welcome') }}"
+                                        class="nav-link {{ request()->routeIs('store.welcome') ? 'active' : '' }}">
                                         <i class="nav-icon bi bi-display"></i>
                                         <p>Store</p>
                                     </a>

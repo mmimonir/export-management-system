@@ -8,14 +8,6 @@ use Illuminate\Http\Request;
 class EMSController extends Controller
 {
     /**
-     * Display the welcome page.
-     */
-    public function welcome()
-    {
-        return view('ems::welcome');
-    }
-
-    /**
      * Display the dashboard.
      */
     public function dashboard()
