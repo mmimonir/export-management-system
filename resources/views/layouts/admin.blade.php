@@ -279,6 +279,32 @@
 
                         <li class="nav-header">EXPORT MANAGEMENT</li>
 
+                        <li class="nav-item {{ request()->routeIs('ems.products.*', 'ems.categories.*') ? 'menu-open' : '' }}">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon bi bi-boxes"></i>
+                                <p>
+                                    Product Catalog
+                                    <i class="right bi bi-chevron-right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('ems.products.manage') }}"
+                                        class="nav-link {{ request()->routeIs('ems.products.*') ? 'active' : '' }}">
+                                        <i class="nav-icon bi bi-box-seam"></i>
+                                        <p>Products</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('ems.categories.manage') }}"
+                                        class="nav-link {{ request()->routeIs('ems.categories.*') ? 'active' : '' }}">
+                                        <i class="nav-icon bi bi-tags"></i>
+                                        <p>Categories</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon bi bi-box-seam"></i>

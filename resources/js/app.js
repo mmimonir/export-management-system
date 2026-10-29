@@ -4,7 +4,8 @@ import "./bootstrap";
 import "@popperjs/core";
 
 // Import Bootstrap JS
-import "bootstrap";
+import * as bootstrap from "bootstrap";
+window.bootstrap = bootstrap;
 
 // Import AdminLTE
 import "admin-lte";
