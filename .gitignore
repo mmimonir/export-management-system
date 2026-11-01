@@ -28,4 +28,5 @@ Thumbs.db
 # Build artifacts
 build/
 dist/
+public/hot
 ```

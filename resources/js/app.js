@@ -25,7 +25,7 @@ import JSZip from "jszip";
 window.JSZip = JSZip;
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
+pdfMake.addVirtualFileSystem(pdfFonts);
 window.pdfMake = pdfMake;
 
 // Initialize AdminLTE

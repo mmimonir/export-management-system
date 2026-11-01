@@ -1,3 +1,11 @@
+@php
+    $dashboardContext = match (true) {
+        request()->routeIs('ems.*') => ['label' => 'EMS Dashboard', 'route' => 'ems.dashboard', 'brand' => 'EMS'],
+        request()->routeIs('blog.*') => ['label' => 'Blog Dashboard', 'route' => 'blog.dashboard', 'brand' => 'Blog'],
+        request()->routeIs('store.*') => ['label' => 'Store Dashboard', 'route' => 'store.dashboard', 'brand' => 'Store'],
+        default => ['label' => 'Dashboard', 'route' => 'dashboard', 'brand' => 'ExportMS'],
+    };
+@endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-bs-theme="light" style="color-scheme: light;">
 
@@ -29,9 +37,9 @@
                     </li>
 
                     <li class="nav-item d-none d-md-block">
-                        <a href="{{ route('dashboard') }}" class="nav-link">
+                        <a href="{{ route($dashboardContext['route']) }}" class="nav-link">
                             <i class="bi bi-grid-1x2 me-1"></i>
-                            Dashboard
+                            {{ $dashboardContext['label'] }}
                         </a>
                     </li>
 
@@ -248,127 +256,27 @@
         <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
             <div class="sidebar-brand">
                 <!--begin::Brand Link-->
-                <a href="{{ route('dashboard') }}" class="brand-link">
+                <a href="{{ route($dashboardContext['route']) }}" class="brand-link">
                     <!--begin::Brand Image-->
                     {{-- <img src="https://adminlte.io/wp-content/uploads/2024/04/logo-adminlte.png" alt="AdminLTE Logo"
                         class="brand-image opacity-75 shadow"> --}}
                     <!--end::Brand Image-->
                     <!--begin::Brand Text-->
-                    <span class="brand-text fw-light">AdminLTE 4</span>
+                    <span class="brand-text fw-light">{{ $dashboardContext['brand'] }}</span>
                     <!--end::Brand Text-->
                 </a>
                 <!--end::Brand Link-->
             </div>
-            {{-- <a href="{{ route('dashboard') }}" class="brand-link">
-                <img src="https://adminlte.io/wp-content/uploads/2024/04/logo-adminlte.png" alt="EMS Logo"
-                    class="brand-image img-circle elevation-3" style="opacity: .8;">
-                <span class="brand-text fw-light">EMS</span>
-            </a> --}}
-
             <div class="sidebar-wrapper">
-                <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar flex-column sidebar-menu" data-lte-toggle="treeview"
-                        role="menu" data-accordion="false">
-                        <li class="nav-item">
-                            <a href="{{ route('dashboard') }}"
-                                class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
-                                <i class="nav-icon bi bi-speedometer"></i>
-                                <p>Dashboard</p>
-                            </a>
-                        </li>
-
-                        <li class="nav-header">EXPORT MANAGEMENT</li>
-
-                        <li class="nav-item {{ request()->routeIs('ems.products.*', 'ems.categories.*') ? 'menu-open' : '' }}">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon bi bi-boxes"></i>
-                                <p>
-                                    Product Catalog
-                                    <i class="right bi bi-chevron-right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ route('ems.products.manage') }}"
-                                        class="nav-link {{ request()->routeIs('ems.products.*') ? 'active' : '' }}">
-                                        <i class="nav-icon bi bi-box-seam"></i>
-                                        <p>Products</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ route('ems.categories.manage') }}"
-                                        class="nav-link {{ request()->routeIs('ems.categories.*') ? 'active' : '' }}">
-                                        <i class="nav-icon bi bi-tags"></i>
-                                        <p>Categories</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon bi bi-box-seam"></i>
-                                <p>
-                                    Dashboards
-                                    <i class="right bi bi-chevron-right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ route('blog.welcome') }}"
-                                        class="nav-link {{ request()->routeIs('blog.welcome') ? 'active' : '' }}">
-                                        <i class="nav-icon bi bi-display"></i>
-                                        <p>Blog</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ route('ems.welcome') }}"
-                                        class="nav-link {{ request()->routeIs('ems.welcome') ? 'active' : '' }}">
-                                        <i class="nav-icon bi bi-display"></i>
-                                        <p>EMS</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ route('store.welcome') }}"
-                                        class="nav-link {{ request()->routeIs('store.welcome') ? 'active' : '' }}">
-                                        <i class="nav-icon bi bi-display"></i>
-                                        <p>Store</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon bi bi-truck"></i>
-                                <p>
-                                    Shipments
-                                    <i class="right bi bi-chevron-right"></i>
-                                </p>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon bi bi-file-earmark-text"></i>
-                                <p>
-                                    Documents
-                                    <i class="right bi bi-chevron-right"></i>
-                                </p>
-                            </a>
-                        </li>
-
-                        <li class="nav-header">SETTINGS</li>
-
-                        <li class="nav-item">
-                            <a href="{{ route('profile.edit') }}"
-                                class="nav-link {{ request()->routeIs('profile.edit') ? 'active' : '' }}">
-                                <i class="nav-icon bi bi-person"></i>
-                                <p>Profile</p>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
+                @if (request()->routeIs('ems.*'))
+                    @include('layouts.partials.sidebars.ems')
+                @elseif (request()->routeIs('blog.*'))
+                    @include('layouts.partials.sidebars.blog')
+                @elseif (request()->routeIs('store.*'))
+                    @include('layouts.partials.sidebars.store')
+                @else
+                    @include('layouts.partials.sidebars.general')
+                @endif
             </div>
         </aside>
 
