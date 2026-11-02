@@ -1,4 +1,5 @@
 import "./bootstrap";
+import Swal from "sweetalert2";
 
 // Import Popper.js
 import "@popperjs/core";
@@ -20,6 +21,28 @@ import "datatables.net-responsive-bs5";
 import "datatables.net-buttons/js/buttons.html5.js";
 import "datatables.net-buttons/js/buttons.print.js";
 import "./shared/data-tables.js";
+
+window.Swal = Swal;
+window.showNotification = ({ icon = "info", text, title } = {}) => Swal.fire({
+    toast: true,
+    position: "top-end",
+    icon,
+    title,
+    text,
+    showConfirmButton: false,
+    timer: 3500,
+    timerProgressBar: true,
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    const flashNotification = document.querySelector("[data-flash-notification]");
+    if (flashNotification) {
+        window.showNotification({
+            icon: flashNotification.dataset.notificationIcon,
+            text: flashNotification.dataset.notificationText,
+        });
+    }
+});
 
 // Export helpers
 import JSZip from "jszip";

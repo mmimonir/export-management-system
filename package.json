@@ -27,6 +27,7 @@
         "js-cookie": "^3.0.8",
         "jszip": "^3.10.1",
         "overlayscrollbars": "^2.16.0",
-        "pdfmake": "^0.2.7"
+        "pdfmake": "^0.2.7",
+        "sweetalert2": "^11.26.25"
     }
 }

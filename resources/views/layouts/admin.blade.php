@@ -62,14 +62,6 @@
                         <a class="nav-link" data-bs-toggle="dropdown" href="#" aria-expanded="false">
                             <i class="bi bi-chat-text"></i>
 
-                            {{-- Dynamic Count --}}
-                            {{-- @php($messageCount = 0)
-
-                            @if ($messageCount) --}}
-                            <span class="navbar-badge badge text-bg-danger">
-                                {{-- {{ $messageCount }} --}}
-                            </span>
-                            {{-- @endif --}}
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
@@ -300,12 +292,16 @@
 
             <section class="app-content">
                 <div class="container-fluid">
-                    @if (session('status'))
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            {{ session('status') }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                aria-label="Close"></button>
-                        </div>
+                    @if (session('status') && session('status') !== 'verification-link-sent')
+                        @php
+                            $notificationText = match (session('status')) {
+                                'profile-updated' => 'Profile updated successfully.',
+                                'password-updated' => 'Password updated successfully.',
+                                default => session('status'),
+                            };
+                        @endphp
+                        <div data-flash-notification data-notification-icon="success"
+                            data-notification-text="{{ $notificationText }}" hidden></div>
                     @endif
 
                     @yield('content')

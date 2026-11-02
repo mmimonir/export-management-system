@@ -9,8 +9,6 @@
 @endsection
 
 @section('content')
-    <div id="product-alert" class="mb-3" aria-live="polite"></div>
-
     <div class="card">
         <div class="card-header ems-list-card-header d-flex flex-column flex-sm-row align-items-sm-center justify-content-between">
             <h3 class="card-title">Export Products</h3>
@@ -73,13 +71,12 @@
     <div class="modal fade" id="product-modal" tabindex="-1" aria-labelledby="product-modal-title" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-scrollable">
             <div class="modal-content">
-                <form id="product-form" novalidate>
+                <form id="product-form" class="product-modal-form" novalidate>
                     <div class="modal-header">
                         <h5 class="modal-title" id="product-modal-title">Add product</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div id="product-form-alert" class="mb-3" aria-live="polite"></div>
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label for="product-category" class="form-label">Category</label>
@@ -192,11 +189,11 @@
                 '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
             })[character]);
 
-            const showAlert = (target, message, type = 'success') => {
-                target.innerHTML = `<div class="alert alert-${type} alert-dismissible fade show" role="alert">
-                    ${escapeHtml(message)}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>`;
+            const showAlert = (message, type = 'success') => {
+                window.showNotification({
+                    icon: type === 'danger' ? 'error' : 'success',
+                    text: message,
+                });
             };
 
             const request = async (url, method = 'GET', data = null) => {
@@ -222,10 +219,9 @@
             const clearErrors = () => {
                 form.querySelectorAll('.is-invalid').forEach((input) => input.classList.remove('is-invalid'));
                 form.querySelectorAll('[data-error-for]').forEach((element) => element.textContent = '');
-                document.getElementById('product-form-alert').innerHTML = '';
             };
 
-            const reportError = (error, target) => {
+            const reportError = (error) => {
                 const errors = error.payload?.errors;
                 if (errors) {
                     Object.entries(errors).forEach(([field, messages]) => {
@@ -236,11 +232,11 @@
                             feedback.textContent = messages[0];
                         }
                     });
-                    showAlert(target, error.payload.message || 'Please correct the highlighted fields.', 'danger');
+                    showAlert(error.payload.message || 'Please correct the highlighted fields.', 'danger');
                     return;
                 }
 
-                showAlert(target, error.payload?.message || 'The request could not be completed.', 'danger');
+                showAlert(error.payload?.message || 'The request could not be completed.', 'danger');
             };
 
             const loadCategories = async () => {
@@ -356,13 +352,9 @@
                     }
 
                     await loadProducts();
-                    showAlert(document.getElementById('product-alert'), result.message);
+                    showAlert(result.message);
                 } catch (error) {
-                    showAlert(
-                        document.getElementById('product-alert'),
-                        error.message || 'The import could not be completed.',
-                        'danger'
-                    );
+                    showAlert(error.message || 'The import could not be completed.', 'danger');
                 } finally {
                     button.disabled = false;
                     importFile.value = '';
@@ -389,18 +381,29 @@
                         document.getElementById('save-product').textContent = 'Update product';
                         modal.show();
                     } catch (error) {
-                        reportError(error, document.getElementById('product-alert'));
+                        reportError(error);
                     }
                     return;
                 }
 
-                if (button.dataset.action === 'delete' && window.confirm('Delete this product?')) {
+                if (button.dataset.action === 'delete') {
+                    const confirmation = await window.Swal.fire({
+                        title: 'Delete this product?',
+                        text: 'This action cannot be undone.',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#dc3545',
+                        confirmButtonText: 'Yes, delete it',
+                        cancelButtonText: 'Cancel',
+                    });
+                    if (!confirmation.isConfirmed) return;
+
                     try {
                         const result = await request(`${endpoint}/${id}`, 'DELETE');
                         await loadProducts();
-                        showAlert(document.getElementById('product-alert'), result.message);
+                        showAlert(result.message);
                     } catch (error) {
-                        reportError(error, document.getElementById('product-alert'));
+                        reportError(error);
                     }
                 }
             });
@@ -421,9 +424,9 @@
                     );
                     modal.hide();
                     await loadProducts();
-                    showAlert(document.getElementById('product-alert'), result.message);
+                    showAlert(result.message);
                 } catch (error) {
-                    reportError(error, document.getElementById('product-form-alert'));
+                    reportError(error);
                 } finally {
                     button.disabled = false;
                 }
@@ -431,7 +434,7 @@
 
             Promise.all([loadCategories(), loadProducts()]).catch((error) => {
                 document.getElementById('products-loading').classList.add('d-none');
-                reportError(error, document.getElementById('product-alert'));
+                reportError(error);
             });
         });
     </script>

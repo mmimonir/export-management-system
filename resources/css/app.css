@@ -4,6 +4,9 @@
 /* Import Bootstrap Icons */
 @import "bootstrap-icons/font/bootstrap-icons.css";
 
+/* Import SweetAlert2 */
+@import "sweetalert2/dist/sweetalert2.min.css";
+
 /* Import AdminLTE CSS */
 @import "admin-lte/dist/css/adminlte.css";
 
@@ -172,6 +175,19 @@
 
 .ems-list-card-header .card-title {
     margin: 0;
+}
+
+.product-modal-form {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.product-modal-form .modal-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
 }
 
 @media (min-width: 992px) {
