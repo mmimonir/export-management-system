@@ -12,7 +12,7 @@
     <div id="product-alert" class="mb-3" aria-live="polite"></div>
 
     <div class="card">
-        <div class="card-header d-flex align-items-center justify-content-between">
+        <div class="card-header ems-list-card-header d-flex flex-column flex-sm-row align-items-sm-center justify-content-between">
             <h3 class="card-title">Export Products</h3>
             <div class="d-flex gap-2">
                 <input type="file" id="import-products-file" class="visually-hidden" accept=".xlsx">
@@ -25,24 +25,46 @@
             </div>
         </div>
         <div class="card-body">
+            <div class="row g-2 align-items-end mb-3" aria-label="Product filters">
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <label for="product-category-filter" class="form-label">Category</label>
+                    <select id="product-category-filter" class="form-select">
+                        <option value="">All categories</option>
+                    </select>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <label for="product-status-filter" class="form-label">Status</label>
+                    <select id="product-status-filter" class="form-select">
+                        <option value="">All statuses</option>
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                    </select>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <label for="product-price-min" class="form-label">Minimum price</label>
+                    <input id="product-price-min" type="number" min="0" step="0.01" class="form-control" placeholder="Any">
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <label for="product-price-max" class="form-label">Maximum price</label>
+                    <input id="product-price-max" type="number" min="0" step="0.01" class="form-control" placeholder="Any">
+                </div>
+            </div>
+            <div id="products-loading" class="text-center text-body-secondary py-3" role="status">Loading products…</div>
             <div class="table-responsive">
-                <table class="table table-striped table-hover align-middle">
+                <table id="products-table" class="table table-striped table-hover align-middle w-100">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>English name</th>
-                            <th>Bangla name</th>
-                            <th>Category</th>
-                            <th>HS code</th>
-                            <th>Buyer-country HS code</th>
-                            <th>Price</th>
-                            <th>Status</th>
-                            <th class="text-end">Actions</th>
+                            <th scope="col" class="exportable">English Name</th>
+                            <th scope="col" class="exportable">Bangla Name</th>
+                            <th scope="col" class="exportable">HS Code</th>
+                            <th scope="col" class="exportable">HS Code for buyer</th>
+                            <th scope="col" class="exportable">Price</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Status</th>
+                            <th scope="col" class="no-export text-end">Actions</th>
                         </tr>
                     </thead>
-                    <tbody id="products-table-body">
-                        <tr><td colspan="9" class="text-center text-body-secondary">Loading products…</td></tr>
-                    </tbody>
+                    <tbody id="products-table-body"></tbody>
                 </table>
             </div>
         </div>
@@ -161,8 +183,10 @@
             const modal = new bootstrap.Modal(document.getElementById('product-modal'));
             const tableBody = document.getElementById('products-table-body');
             const categorySelect = document.getElementById('product-category');
+            const categoryFilter = document.getElementById('product-category-filter');
             const importFile = document.getElementById('import-products-file');
             let currentId = null;
+            let productsDataTable = null;
 
             const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, (character) => ({
                 '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
@@ -233,22 +257,59 @@
 
             const loadProducts = async () => {
                 const { data } = await request(endpoint);
-                tableBody.innerHTML = data.length ? data.map((product) => `
-                    <tr>
-                        <td>${escapeHtml(product.id)}</td>
+                const selectedCategory = categoryFilter.value;
+                const categories = [...new Set(data.map((product) => product.category?.name).filter(Boolean))].sort();
+                categoryFilter.replaceChildren(new Option('All categories', ''));
+                categories.forEach((category) => categoryFilter.add(new Option(category, category)));
+                if (categories.includes(selectedCategory)) categoryFilter.value = selectedCategory;
+
+                const rows = data.map((product) => {
+                    const row = document.createElement('tr');
+                    const activeLabel = product.is_active ? 'Active' : 'Inactive';
+                    row.innerHTML = `
                         <td>${escapeHtml(product.name_english)}</td>
                         <td>${escapeHtml(product.name_bangla_display)}</td>
-                        <td>${escapeHtml(product.category?.name || '—')}</td>
                         <td>${escapeHtml(product.hs_code)}</td>
                         <td>${escapeHtml(product.hs_code_buyer_country || '—')}</td>
-                        <td>${product.unit_price === null ? '—' : `${escapeHtml(product.currency)} ${escapeHtml(product.unit_price)}`}</td>
-                        <td><span class="badge ${product.is_active ? 'text-bg-success' : 'text-bg-secondary'}">${product.is_active ? 'Active' : 'Inactive'}</span></td>
-                        <td class="text-end text-nowrap">
-                            <button type="button" class="btn btn-outline-primary btn-sm" data-action="edit" data-id="${escapeHtml(product.id)}">Edit</button>
-                            <button type="button" class="btn btn-outline-danger btn-sm" data-action="delete" data-id="${escapeHtml(product.id)}">Delete</button>
+                        <td data-order="${escapeHtml(product.unit_price ?? '')}">${product.unit_price === null ? '—' : `${escapeHtml(product.currency)} ${escapeHtml(product.unit_price)}`}</td>
+                        <td>${escapeHtml(product.category?.name || '—')}</td>
+                        <td data-search="${activeLabel}"><span class="badge ${product.is_active ? 'text-bg-success' : 'text-bg-secondary'}">${activeLabel}</span></td>
+                        <td class="text-sm-end">
+                            <div class="d-flex flex-wrap gap-1 justify-content-sm-end">
+                                <button type="button" class="btn btn-outline-primary btn-sm" data-action="edit" data-id="${escapeHtml(product.id)}">Edit</button>
+                                <button type="button" class="btn btn-outline-danger btn-sm" data-action="delete" data-id="${escapeHtml(product.id)}">Delete</button>
+                            </div>
                         </td>
-                    </tr>
-                `).join('') : '<tr><td colspan="9" class="text-center text-body-secondary">No products found.</td></tr>';
+                    `;
+                    return row;
+                });
+
+                if (!productsDataTable) {
+                    productsDataTable = window.initializeExportDataTable({
+                        selector: '#products-table',
+                        title: 'Export Products',
+                        priorities: {
+                            detail: 0,
+                            actions: 7,
+                            actionsPriority: 1,
+                            hidden: [5, 6],
+                            columns: [
+                                { column: 1, priority: 3 },
+                                { column: 2, priority: 4 },
+                                { column: 3, priority: 5 },
+                                { column: 4, priority: 2 },
+                            ],
+                        },
+                        filters: [
+                            { selector: '#product-category-filter', column: 5 },
+                            { selector: '#product-status-filter', column: 6 },
+                            { selector: '#product-price-min, #product-price-max', type: 'range', column: 4 },
+                        ],
+                    });
+                }
+
+                productsDataTable.clear().rows.add(rows).draw(false);
+                document.getElementById('products-loading').classList.add('d-none');
             };
 
             const resetForm = () => {
@@ -369,6 +430,7 @@
             });
 
             Promise.all([loadCategories(), loadProducts()]).catch((error) => {
+                document.getElementById('products-loading').classList.add('d-none');
                 reportError(error, document.getElementById('product-alert'));
             });
         });

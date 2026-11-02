@@ -12,29 +12,38 @@
     <div id="category-alert" class="mb-3" aria-live="polite"></div>
 
     <div class="card">
-        <div class="card-header d-flex align-items-center justify-content-between">
+        <div class="card-header ems-list-card-header d-flex flex-column flex-sm-row align-items-sm-center justify-content-between">
             <h3 class="card-title">Product Categories</h3>
             <button type="button" class="btn btn-primary btn-sm" id="create-category">
                 <i class="bi bi-plus-lg me-1"></i> Add category
             </button>
         </div>
         <div class="card-body">
+            <div class="row g-2 align-items-end mb-3" aria-label="Category filters">
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <label for="category-status-filter" class="form-label">Status</label>
+                    <select id="category-status-filter" class="form-select">
+                        <option value="">All statuses</option>
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                    </select>
+                </div>
+            </div>
+            <div id="categories-loading" class="text-center text-body-secondary py-3" role="status">Loading categories…</div>
             <div class="table-responsive">
-                <table class="table table-striped table-hover align-middle">
+                <table id="categories-table" class="table table-striped table-hover align-middle w-100">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Slug</th>
-                            <th>Description</th>
-                            <th>Products</th>
-                            <th>Status</th>
-                            <th class="text-end">Actions</th>
+                            <th scope="col" class="exportable">ID</th>
+                            <th scope="col" class="exportable">Name</th>
+                            <th scope="col" class="exportable">Slug</th>
+                            <th scope="col" class="exportable">Description</th>
+                            <th scope="col" class="exportable">Products</th>
+                            <th scope="col" class="exportable">Status</th>
+                            <th scope="col" class="no-export text-end">Actions</th>
                         </tr>
                     </thead>
-                    <tbody id="categories-table-body">
-                        <tr><td colspan="7" class="text-center text-body-secondary">Loading categories…</td></tr>
-                    </tbody>
+                    <tbody id="categories-table-body"></tbody>
                 </table>
             </div>
         </div>
@@ -89,6 +98,7 @@
             const modal = new bootstrap.Modal(document.getElementById('category-modal'));
             const tableBody = document.getElementById('categories-table-body');
             let currentId = null;
+            let categoriesDataTable = null;
 
             const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, (character) => ({
                 '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
@@ -147,20 +157,50 @@
 
             const loadCategories = async () => {
                 const { data } = await request(endpoint);
-                tableBody.innerHTML = data.length ? data.map((category) => `
-                    <tr>
+                const rows = data.map((category) => {
+                    const row = document.createElement('tr');
+                    const activeLabel = category.is_active ? 'Active' : 'Inactive';
+                    row.innerHTML = `
                         <td>${escapeHtml(category.id)}</td>
                         <td>${escapeHtml(category.name)}</td>
                         <td>${escapeHtml(category.slug)}</td>
                         <td>${escapeHtml(category.description || '—')}</td>
-                        <td>${escapeHtml(category.products_count)}</td>
-                        <td><span class="badge ${category.is_active ? 'text-bg-success' : 'text-bg-secondary'}">${category.is_active ? 'Active' : 'Inactive'}</span></td>
-                        <td class="text-end text-nowrap">
-                            <button type="button" class="btn btn-outline-primary btn-sm" data-action="edit" data-id="${escapeHtml(category.id)}">Edit</button>
-                            <button type="button" class="btn btn-outline-danger btn-sm" data-action="delete" data-id="${escapeHtml(category.id)}">Delete</button>
+                        <td data-order="${escapeHtml(category.products_count)}">${escapeHtml(category.products_count)}</td>
+                        <td data-search="${activeLabel}"><span class="badge ${category.is_active ? 'text-bg-success' : 'text-bg-secondary'}">${activeLabel}</span></td>
+                        <td class="text-sm-end">
+                            <div class="d-flex flex-wrap gap-1 justify-content-sm-end">
+                                <button type="button" class="btn btn-outline-primary btn-sm" data-action="edit" data-id="${escapeHtml(category.id)}">Edit</button>
+                                <button type="button" class="btn btn-outline-danger btn-sm" data-action="delete" data-id="${escapeHtml(category.id)}">Delete</button>
+                            </div>
                         </td>
-                    </tr>
-                `).join('') : '<tr><td colspan="7" class="text-center text-body-secondary">No categories found.</td></tr>';
+                    `;
+                    return row;
+                });
+
+                if (!categoriesDataTable) {
+                    categoriesDataTable = window.initializeExportDataTable({
+                        selector: '#categories-table',
+                        title: 'Product Categories',
+                        priorities: {
+                            detail: 1,
+                            actions: 6,
+                            actionsPriority: 2,
+                            columns: [
+                                { column: 1, priority: 1 },
+                                { column: 5, priority: 3 },
+                                { column: 4, priority: 4 },
+                                { column: 2, priority: 5 },
+                                { column: 3, priority: 6 },
+                            ],
+                        },
+                        filters: [
+                            { selector: '#category-status-filter', column: 5 },
+                        ],
+                    });
+                }
+
+                categoriesDataTable.clear().rows.add(rows).draw(false);
+                document.getElementById('categories-loading').classList.add('d-none');
             };
 
             const resetForm = () => {
@@ -236,6 +276,7 @@
             });
 
             loadCategories().catch((error) => {
+                document.getElementById('categories-loading').classList.add('d-none');
                 reportError(error, document.getElementById('category-alert'));
             });
         });

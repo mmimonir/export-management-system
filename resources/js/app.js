@@ -13,12 +13,13 @@ import "admin-lte";
 // Import OverlayScrollbars
 import "overlayscrollbars";
 
-// DataTables (Bootstrap 5 integration + Buttons + Responsive)
+// Shared DataTables setup (Bootstrap 5 integration + Buttons + Responsive)
 import "datatables.net-bs5";
 import "datatables.net-buttons-bs5";
 import "datatables.net-responsive-bs5";
 import "datatables.net-buttons/js/buttons.html5.js";
 import "datatables.net-buttons/js/buttons.print.js";
+import "./shared/data-tables.js";
 
 // Export helpers
 import JSZip from "jszip";
