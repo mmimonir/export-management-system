@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
+use Modules\EMS\Imports\ExportProductImporter;
 use Modules\EMS\Models\ExportProduct;
 
 class ExportProductController extends Controller
@@ -27,6 +29,27 @@ class ExportProductController extends Controller
         return response()->json([
             'message' => 'Product created successfully.',
             'data' => $product->load('category:id,name'),
+        ], 201);
+    }
+
+    public function import(Request $request, ExportProductImporter $importer): JsonResponse
+    {
+        $validated = $request->validate([
+            'file' => ['required', 'file', 'mimes:xlsx', 'max:10240'],
+        ]);
+
+        try {
+            $count = $importer->import($validated['file']);
+        } catch (ValidationException $exception) {
+            return response()->json([
+                'message' => 'The workbook contains invalid data.',
+                'errors' => $exception->errors(),
+            ], 422);
+        }
+
+        return response()->json([
+            'message' => "{$count} products imported successfully.",
+            'count' => $count,
         ], 201);
     }
 
@@ -66,6 +89,7 @@ class ExportProductController extends Controller
             'name_english_display' => ['required', 'string', 'max:255'],
             'botanical_name' => ['nullable', 'string', 'max:255'],
             'hs_code' => ['required', 'string', 'max:20'],
+            'hs_code_buyer_country' => ['nullable', 'string', 'max:20'],
             'unit_price' => ['nullable', 'numeric', 'decimal:0,2', 'min:0', 'max:99999999.99'],
             'currency' => ['required', 'string', 'size:3', 'alpha'],
             'slug' => [

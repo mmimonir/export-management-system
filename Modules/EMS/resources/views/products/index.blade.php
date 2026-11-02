@@ -14,9 +14,15 @@
     <div class="card">
         <div class="card-header d-flex align-items-center justify-content-between">
             <h3 class="card-title">Export Products</h3>
-            <button type="button" class="btn btn-primary btn-sm" id="create-product">
-                <i class="bi bi-plus-lg me-1"></i> Add product
-            </button>
+            <div class="d-flex gap-2">
+                <input type="file" id="import-products-file" class="visually-hidden" accept=".xlsx">
+                <button type="button" class="btn btn-outline-primary btn-sm" id="import-products">
+                    <i class="bi bi-file-earmark-arrow-up me-1"></i> Import Excel
+                </button>
+                <button type="button" class="btn btn-primary btn-sm" id="create-product">
+                    <i class="bi bi-plus-lg me-1"></i> Add product
+                </button>
+            </div>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -28,13 +34,14 @@
                             <th>Bangla name</th>
                             <th>Category</th>
                             <th>HS code</th>
+                            <th>Buyer-country HS code</th>
                             <th>Price</th>
                             <th>Status</th>
                             <th class="text-end">Actions</th>
                         </tr>
                     </thead>
                     <tbody id="products-table-body">
-                        <tr><td colspan="8" class="text-center text-body-secondary">Loading products…</td></tr>
+                        <tr><td colspan="9" class="text-center text-body-secondary">Loading products…</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -104,6 +111,11 @@
                                 <input id="product-hs-code" name="hs_code" class="form-control" maxlength="20" required>
                                 <div class="invalid-feedback" data-error-for="hs_code"></div>
                             </div>
+                            <div class="col-md-6">
+                                <label for="product-hs-code-buyer-country" class="form-label">Buyer-country HS code <span class="text-body-secondary">(optional)</span></label>
+                                <input id="product-hs-code-buyer-country" name="hs_code_buyer_country" class="form-control" maxlength="20">
+                                <div class="invalid-feedback" data-error-for="hs_code_buyer_country"></div>
+                            </div>
                             <div class="col-md-4">
                                 <label for="product-unit-price" class="form-label">Unit price <span class="text-body-secondary">(optional)</span></label>
                                 <input id="product-unit-price" name="unit_price" type="number" min="0" step="0.01" class="form-control">
@@ -142,12 +154,14 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const endpoint = @json(route('ems.products.index'));
+            const importEndpoint = @json(route('ems.products.import'));
             const categoryEndpoint = @json(route('ems.categories.index'));
             const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
             const form = document.getElementById('product-form');
             const modal = new bootstrap.Modal(document.getElementById('product-modal'));
             const tableBody = document.getElementById('products-table-body');
             const categorySelect = document.getElementById('product-category');
+            const importFile = document.getElementById('import-products-file');
             let currentId = null;
 
             const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, (character) => ({
@@ -226,6 +240,7 @@
                         <td>${escapeHtml(product.name_bangla_display)}</td>
                         <td>${escapeHtml(product.category?.name || '—')}</td>
                         <td>${escapeHtml(product.hs_code)}</td>
+                        <td>${escapeHtml(product.hs_code_buyer_country || '—')}</td>
                         <td>${product.unit_price === null ? '—' : `${escapeHtml(product.currency)} ${escapeHtml(product.unit_price)}`}</td>
                         <td><span class="badge ${product.is_active ? 'text-bg-success' : 'text-bg-secondary'}">${product.is_active ? 'Active' : 'Inactive'}</span></td>
                         <td class="text-end text-nowrap">
@@ -233,7 +248,7 @@
                             <button type="button" class="btn btn-outline-danger btn-sm" data-action="delete" data-id="${escapeHtml(product.id)}">Delete</button>
                         </td>
                     </tr>
-                `).join('') : '<tr><td colspan="8" class="text-center text-body-secondary">No products found.</td></tr>';
+                `).join('') : '<tr><td colspan="9" class="text-center text-body-secondary">No products found.</td></tr>';
             };
 
             const resetForm = () => {
@@ -249,6 +264,48 @@
             document.getElementById('create-product').addEventListener('click', () => {
                 resetForm();
                 modal.show();
+            });
+
+            document.getElementById('import-products').addEventListener('click', () => importFile.click());
+
+            importFile.addEventListener('change', async () => {
+                const file = importFile.files[0];
+                if (!file) return;
+
+                const button = document.getElementById('import-products');
+                const formData = new FormData();
+                formData.append('file', file);
+                button.disabled = true;
+
+                try {
+                    const response = await fetch(importEndpoint, {
+                        method: 'POST',
+                        headers: {
+                            Accept: 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'X-CSRF-TOKEN': csrfToken,
+                        },
+                        body: formData,
+                    });
+                    const result = await response.json();
+
+                    if (!response.ok) {
+                        const errors = Object.values(result.errors || {}).flat();
+                        throw new Error(errors.join(' ') || result.message || 'The import could not be completed.');
+                    }
+
+                    await loadProducts();
+                    showAlert(document.getElementById('product-alert'), result.message);
+                } catch (error) {
+                    showAlert(
+                        document.getElementById('product-alert'),
+                        error.message || 'The import could not be completed.',
+                        'danger'
+                    );
+                } finally {
+                    button.disabled = false;
+                    importFile.value = '';
+                }
             });
 
             tableBody.addEventListener('click', async (event) => {

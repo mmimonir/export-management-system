@@ -12,6 +12,7 @@ Route::prefix('ems')->name('ems.')->group(function () {
         Route::view('products/manage', 'ems::products.index')->name('products.manage');
         Route::view('categories/manage', 'ems::categories.index')->name('categories.manage');
 
+        Route::post('products/import', [ExportProductController::class, 'import'])->name('products.import');
         Route::apiResource('products', ExportProductController::class);
         Route::apiResource('categories', ProductCategoryController::class);
     });

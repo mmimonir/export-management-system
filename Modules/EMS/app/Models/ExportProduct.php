@@ -19,6 +19,7 @@ class ExportProduct extends Model
         'name_english_display',
         'botanical_name',
         'hs_code',
+        'hs_code_buyer_country',
         'unit_price',
         'currency',
         'slug',
